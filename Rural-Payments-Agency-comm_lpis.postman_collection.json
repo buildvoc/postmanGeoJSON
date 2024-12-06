@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "fd720f87-fa09-446d-ae66-f45fc03b7297",
+		"name": "Rural-Payments-Agency-comm_lpis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38818383"
+	},
+	"item": [
+		{
+			"name": "https://pic2bim.co.uk/comm_get_lpis?bbox=-0.759859,51.219908,-0.781896,51.212019",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman GeoJSON Plugin\r",
+							"// https://github.com/OrdnanceSurvey/postmanGeoJSON\r",
+							"\r",
+							"const OS_MAPS_API_KEY = '' // leave blank for OSM tiles\r",
+							"\r",
+							"const template = `\r",
+							"<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.7.1/dist/leaflet.css\" />\r",
+							"<script src=\"https://unpkg.com/leaflet@1.7.1/dist/leaflet.js\"></script>\r",
+							"<style>\r",
+							"    body { margin: 0; padding: 0; height: 100vh; display: grid; grid-template-rows: auto 1fr; }\r",
+							"    #top { padding: 6px; margin: 0; background: #f1f5f9; color: #1e293b; }\r",
+							"    #map { padding: 0; margin: 0; }\r",
+							"</style>\r",
+							"<div id=\"top\"><small id=\"js-banner\">Loading Response.</small></div>\r",
+							"<div id=\"map\"></div>\r",
+							"<script>\r",
+							"    const map = L.map('map', { minZoom: 1, maxZoom: 18 });\r",
+							"    let apiKey = '${OS_MAPS_API_KEY}';\r",
+							"    let basemap = (!apiKey)\r",
+							"        ? L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\r",
+							"            attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'\r",
+							"        }).addTo(map)\r",
+							"        : L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=' + apiKey, {\r",
+							"            maxZoom: 20,\r",
+							"            attribution: 'Contains OS data © Crown Copyright and Database Rights 2022'\r",
+							"        }).addTo(map)\r",
+							"    let overlay = L.geoJSON(null, {\r",
+							"        onEachFeature: function(feature, layer) {\r",
+							"            const properties = layer.feature.properties;\r",
+							"            let content = '<div\">';\r",
+							"            for( let i in properties ) {\r",
+							"                content += '<h1 style=\"margin-top: 4px; margin-bottom: 4px; font-size: 1.4em; font-weight: bold;\">' + i + '</h1><p style=\"margin-top: 2px; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid #eee; font-size: 1em; font-family: monospace;\">' + properties[i] + '</p>';\r",
+							"            }\r",
+							"            content += '</div>';\r",
+							"            layer.bindPopup(content, { maxHeight: 300, maxWidth: 1000 });\r",
+							"            layer.on({ mouseover: focusOnFeature, mouseout: resetOverlayStyle });\r",
+							"        },\r",
+							"        style: { weight: 1, color: '#FF1F5B', fillOpacity: 0.2 }\r",
+							"    });\r",
+							"    function focusOnFeature(e) { let t = e.target; t.setStyle({ weight: 3 }); t.bringToFront() }\r",
+							"    function resetOverlayStyle(e) { overlay.resetStyle(e.target) }\r",
+							"    pm.getData((error, data) => {\r",
+							"        if (!data.response.type) {\r",
+							"            document.getElementById('js-banner').innerText = \"Error Parsing Response. It might not be GeoJSON.\";\r",
+							"        } else {\r",
+							"            overlay.addData(data.response);\r",
+							"            overlay.addTo(map);\r",
+							"            map.fitBounds(overlay.getBounds());\r",
+							"            document.getElementById('js-banner').innerText = \"Request has returned \" + data.response.features.length.toString() + \" unique features.\";\r",
+							"        }\r",
+							"    })\r",
+							"</script>`; pm.visualizer.set(template, {response: pm.response.json()});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "78|LD9PWeCrEreejQ5ZFHK1o31wN22vpxNuzFCkkIRra2738ba0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pic2bim.co.uk/comm_get_lpis?bbox=-0.759859,51.219908,-0.781896,51.212019",
+					"protocol": "https",
+					"host": [
+						"pic2bim",
+						"co",
+						"uk"
+					],
+					"path": [
+						"comm_get_lpis"
+					],
+					"query": [
+						{
+							"key": "bbox",
+							"value": "-0.759859,51.219908,-0.781896,51.212019"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
