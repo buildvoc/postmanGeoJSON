@@ -3,7 +3,11 @@
 
 This Postman plugin was written for testing Ordnance Survey APIs which return a GeoJSON response, but it will work with any GeoJSON response (with WGS84 geometries) from any service. It's based on the [GeoJSON Visualizer](https://www.postman.com/gold-meadow-42382/workspace/geojson-visualizer) plugin, with enhancements and better error handling.
 
-![Example Screenshot](./example.png)
+![Example Screenshot](./example_rpa_OS_Outdoor_3857.png)
+Example with Ordnance Survey Outdoor 
+
+![Example Screenshot](./example_rpa.png)
+Example with Open Street Map
 
 ## Installation
 This plugin is designed to use the [OS Maps API](https://osdatahub.os.uk/docs/wmts/overview) to render a basemap if you provide an API key where specified in the code. If a key is not specified, the plugin will revert to OpenStreetMap tiles instead. The OS Maps API only covers Great Britain. If you're testing the response of an geospatial API with global coverage, you're probably best to use OSM tiles.
